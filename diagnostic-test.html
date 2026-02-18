@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Diagnostic Test - Check What's Loaded</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #16213e;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: #00d9ff;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        .test-section {
+            background: #0f3460;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .test-section h2 {
+            color: #00d9ff;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .result {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #1e7e34;
+            border-left: 4px solid #28a745;
+        }
+
+        .error {
+            background: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+
+        .warning {
+            background: #856404;
+            border-left: 4px solid #ffc107;
+        }
+
+        .info {
+            background: #004085;
+            border-left: 4px solid #007bff;
+        }
+
+        button {
+            background: #00d9ff;
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #00b8d4;
+        }
+
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #00d9ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔍 Progress Bar Diagnostic Test</h1>
+
+        <div class="test-section">
+            <h2>1. Check if Scripts are Loaded</h2>
+            <div id="scripts-check"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>2. Check Global Objects</h2>
+            <div id="globals-check"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>3. Check Functions</h2>
+            <div id="functions-check"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>4. Manual Test</h2>
+            <p style="margin-bottom: 15px;">Click these buttons to manually trigger updates:</p>
+            <button onclick="testLiveProgressBar()">Test LiveProgressBar.update()</button>
+            <button onclick="testFreeShippingManager()">Test FreeShippingManager.updateBanner()</button>
+            <button onclick="checkConsole()">Check Console Logs</button>
+            <div id="manual-test" style="margin-top: 15px;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>5. Console Output</h2>
+            <div id="console-output"></div>
+        </div>
+    </div>
+
+    <script>
+        // Capture console logs
+        const consoleOutput = document.getElementById('console-output');
+        const originalLog = console.log;
+        console.log = function (...args) {
+            originalLog.apply(console, args);
+            const div = document.createElement('div');
+            div.className = 'result info';
+            div.textContent = args.join(' ');
+            consoleOutput.appendChild(div);
+        };
+
+        // Run diagnostics
+        setTimeout(function () {
+            runDiagnostics();
+        }, 500);
+
+        function runDiagnostics() {
+            checkScripts();
+            checkGlobals();
+            checkFunctions();
+        }
+
+        function checkScripts() {
+            const container = document.getElementById('scripts-check');
+            container.innerHTML = '';
+
+            const scripts = document.querySelectorAll('script[src]');
+            scripts.forEach(function (script) {
+                const div = document.createElement('div');
+                div.className = 'result info';
+                div.textContent = '✓ Loaded: ' + script.src;
+                container.appendChild(div);
+            });
+
+            if (scripts.length === 0) {
+                const div = document.createElement('div');
+                div.className = 'result warning';
+                div.textContent = '⚠️ No external scripts found';
+                container.appendChild(div);
+            }
+        }
+
+        function checkGlobals() {
+            const container = document.getElementById('globals-check');
+            container.innerHTML = '';
+
+            const checks = [
+                { name: 'window.LiveProgressBar', obj: window.LiveProgressBar },
+                { name: 'window.FreeShippingManager', obj: window.FreeShippingManager },
+                { name: 'window.updateCartQuantity', obj: window.updateCartQuantity }
+            ];
+
+            checks.forEach(function (check) {
+                const div = document.createElement('div');
+                if (check.obj) {
+                    div.className = 'result success';
+                    div.textContent = '✅ ' + check.name + ' exists';
+                    if (typeof check.obj === 'object') {
+                        div.textContent += ' (Object with keys: ' + Object.keys(check.obj).join(', ') + ')';
+                    }
+                } else {
+                    div.className = 'result error';
+                    div.textContent = '❌ ' + check.name + ' NOT FOUND';
+                }
+                container.appendChild(div);
+            });
+        }
+
+        function checkFunctions() {
+            const container = document.getElementById('functions-check');
+            container.innerHTML = '';
+
+            const checks = [
+                { name: 'LiveProgressBar.update', fn: window.LiveProgressBar?.update },
+                { name: 'LiveProgressBar.updateBanner', fn: window.LiveProgressBar?.updateBanner },
+                { name: 'FreeShippingManager.update', fn: window.FreeShippingManager?.update },
+                { name: 'FreeShippingManager.updateBanner', fn: window.FreeShippingManager?.updateBanner }
+            ];
+
+            checks.forEach(function (check) {
+                const div = document.createElement('div');
+                if (typeof check.fn === 'function') {
+                    div.className = 'result success';
+                    div.textContent = '✅ ' + check.name + ' is a function';
+                } else {
+                    div.className = 'result error';
+                    div.textContent = '❌ ' + check.name + ' is NOT a function';
+                }
+                container.appendChild(div);
+            });
+        }
+
+        function testLiveProgressBar() {
+            const container = document.getElementById('manual-test');
+            container.innerHTML = '';
+
+            const div = document.createElement('div');
+
+            if (window.LiveProgressBar && typeof window.LiveProgressBar.update === 'function') {
+                try {
+                    window.LiveProgressBar.update();
+                    div.className = 'result success';
+                    div.textContent = '✅ LiveProgressBar.update() called successfully! Check console for output.';
+                } catch (e) {
+                    div.className = 'result error';
+                    div.textContent = '❌ Error calling LiveProgressBar.update(): ' + e.message;
+                }
+            } else {
+                div.className = 'result error';
+                div.textContent = '❌ LiveProgressBar.update() not found!';
+            }
+
+            container.appendChild(div);
+        }
+
+        function testFreeShippingManager() {
+            const container = document.getElementById('manual-test');
+            container.innerHTML = '';
+
+            const div = document.createElement('div');
+
+            if (window.FreeShippingManager && typeof window.FreeShippingManager.updateBanner === 'function') {
+                try {
+                    window.FreeShippingManager.updateBanner();
+                    div.className = 'result success';
+                    div.textContent = '✅ FreeShippingManager.updateBanner() called successfully! Check console for output.';
+                } catch (e) {
+                    div.className = 'result error';
+                    div.textContent = '❌ Error calling FreeShippingManager.updateBanner(): ' + e.message;
+                }
+            } else {
+                div.className = 'result error';
+                div.textContent = '❌ FreeShippingManager.updateBanner() not found!';
+            }
+
+            container.appendChild(div);
+        }
+
+        function checkConsole() {
+            const container = document.getElementById('manual-test');
+            container.innerHTML = '';
+
+            const div = document.createElement('div');
+            div.className = 'result info';
+            div.innerHTML = '<strong>Instructions:</strong><br>1. Press F12 to open DevTools<br>2. Go to Console tab<br>3. Look for messages starting with 🚀 or ✅<br>4. If you see "Live Cart Progress Bar loaded", the script is working!';
+
+            container.appendChild(div);
+        }
+    </script>
+
+    <!-- Load the actual script -->
+    <script src="assets/js/cart-progress-live.js"></script>
+</body>
+
+</html>

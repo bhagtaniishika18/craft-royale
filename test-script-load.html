@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Script Test</title>
+</head>
+
+<body>
+    <h1>Testing if free-shipping-manager.js loads</h1>
+    <div id="result"></div>
+
+    <script src="assets/js/free-shipping-manager.js"></script>
+    <script>
+        var resultDiv = document.getElementById('result');
+
+        if (typeof window.FreeShippingManager !== 'undefined') {
+            resultDiv.innerHTML = '<p style="color: green; font-size: 20px;">✅ SUCCESS! FreeShippingManager is loaded!</p>';
+            resultDiv.innerHTML += '<p>Available methods: ' + Object.keys(window.FreeShippingManager).join(', ') + '</p>';
+        } else {
+            resultDiv.innerHTML = '<p style="color: red; font-size: 20px;">❌ FAILED! FreeShippingManager is NOT loaded!</p>';
+            resultDiv.innerHTML += '<p>Check browser console for errors (F12)</p>';
+        }
+    </script>
+</body>
+
+</html>

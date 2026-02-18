@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Modal Z-Index Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .test-section {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .info {
+            color: #17a2b8;
+            font-weight: bold;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        code {
+            background: #2b2b2b;
+            color: #0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="test-container">
+        <h1>🎯 Modal Z-Index Fix - Testing Guide</h1>
+
+        <div class="test-section">
+            <h2>✅ What Was Fixed</h2>
+            <ul>
+                <li class="success">✅ Added inline <code>style="z-index: 2000000 !important;"</code> to ALL modals</li>
+                <li class="success">✅ Created modal show/hide functions with z-index enforcement</li>
+                <li class="success">✅ Added JavaScript to force z-index when modals open</li>
+                <li class="success">✅ Modals now appear ABOVE cart sidebar (z-index: 1000000)</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🧪 Testing Steps</h2>
+            <ol style="line-height: 2;">
+                <li><strong>Clear Cache:</strong> Press <code>Ctrl + Shift + Delete</code> and clear cache</li>
+                <li><strong>Hard Refresh:</strong> Press <code>Ctrl + F5</code></li>
+                <li><strong>Open Website:</strong> <button
+                        onclick="window.open('http://localhost/Craft%20Royale/', '_blank')">🌐 Open Site</button></li>
+                <li><strong>Add Products:</strong> Add 2-3 products to cart</li>
+                <li><strong>Open Cart:</strong> Click the cart icon in header</li>
+                <li><strong>Test Modals:</strong> Click each of the 4 action icons at bottom of cart</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h2>🎯 Test Each Modal</h2>
+            <ul class="checklist">
+                <li>📝 <strong>Order Note:</strong> Click the note icon → Modal should appear IN FRONT</li>
+                <li>🚚 <strong>Estimate Shipping:</strong> Click the truck icon → Modal should appear IN FRONT</li>
+                <li>🎟️ <strong>Coupon:</strong> Click the ticket icon → Modal should appear IN FRONT</li>
+                <li>🎁 <strong>Gift Card:</strong> Click the gift icon → Modal should appear IN FRONT</li>
+                <li>🗑️ <strong>Delete Item:</strong> Click delete on cart item → Modal should appear IN FRONT</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🔍 What You Should See</h2>
+            <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                <p class="success"><strong>✅ CORRECT:</strong></p>
+                <ul>
+                    <li>Modal appears clearly in front of cart sidebar</li>
+                    <li>Cart sidebar is slightly dimmed in background</li>
+                    <li>Modal has a blurred backdrop</li>
+                    <li>You can interact with modal inputs/buttons</li>
+                    <li>Clicking outside modal closes it</li>
+                </ul>
+            </div>
+            <div style="background: white; padding: 15px; border-radius: 5px; margin: 10px 0;">
+                <p class="error"><strong>❌ WRONG (if this happens, cache not cleared):</strong></p>
+                <ul>
+                    <li>Modal appears behind cart sidebar</li>
+                    <li>Modal looks blurred</li>
+                    <li>Can't click on modal</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🐛 If Modals Still Behind Cart</h2>
+            <ol>
+                <li><strong>Force Clear Cache:</strong>
+                    <ul>
+                        <li>Press <code>Ctrl + Shift + Delete</code></li>
+                        <li>Select "All time"</li>
+                        <li>Check "Cached images and files"</li>
+                        <li>Click "Clear data"</li>
+                    </ul>
+                </li>
+                <li><strong>Try Incognito Mode:</strong> Press <code>Ctrl + Shift + N</code></li>
+                <li><strong>Check Console:</strong>
+                    <ul>
+                        <li>Press <code>F12</code></li>
+                        <li>Go to Console tab</li>
+                        <li>Look for: <code
+                                class="success">✅ All modal functions initialized with z-index enforcement</code></li>
+                    </ul>
+                </li>
+                <li><strong>Inspect Modal:</strong>
+                    <ul>
+                        <li>Open a modal</li>
+                        <li>Right-click the modal</li>
+                        <li>Select "Inspect"</li>
+                        <li>Check if <code>z-index: 2000000</code> is applied</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Z-Index Hierarchy</h2>
+            <pre style="background: #2b2b2b; color: #0f0; padding: 15px; border-radius: 5px; overflow-x: auto;">
+Page Content:        z-index: 1
+Header:              z-index: 9999999
+Cart Sidebar:        z-index: 1000000
+────────────────────────────────────────
+ALL MODALS:          z-index: 2000000 ✅
+├── Order Note Modal
+├── Estimate Modal
+├── Coupon Modal
+├── Gift Card Modal
+└── Delete Modal
+            </pre>
+        </div>
+
+        <div class="test-section">
+            <h2>✅ Success Criteria</h2>
+            <ul class="checklist">
+                <li>✅ All 4 action icon modals open in front of cart</li>
+                <li>✅ Delete confirmation modal opens in front of cart</li>
+                <li>✅ Modals have clear, non-blurred appearance</li>
+                <li>✅ Cart sidebar is dimmed when modal is open</li>
+                <li>✅ Can interact with modal inputs and buttons</li>
+                <li>✅ Clicking outside modal closes it</li>
+                <li>✅ No console errors appear</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="window.open('http://localhost/Craft%20Royale/', '_blank')">
+                🌐 Open Website Now
+            </button>
+            <button
+                onclick="alert('1. Clear cache (Ctrl+Shift+Delete)\\n2. Hard refresh (Ctrl+F5)\\n3. Test all modals\\n4. Check console for success messages')">
+                📋 Show Quick Steps
+            </button>
+        </div>
+    </div>
+
+    <script>
+        console.log('✅ Modal Z-Index Test Page Loaded');
+        console.log('📝 Follow the testing steps above');
+        console.log('🎯 All modals should now appear ABOVE the cart sidebar');
+    </script>
+</body>
+
+</html>

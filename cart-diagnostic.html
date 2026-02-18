@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cart Button Diagnostic</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #2b2b2b;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+
+        .warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+
+        .error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .test-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .test-btn:active {
+            transform: translateY(0);
+        }
+
+        code {
+            background: #2b2b2b;
+            color: #0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .checklist li:before {
+            content: "☐";
+            margin-right: 10px;
+            font-size: 20px;
+            color: #667eea;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🛒 Cart Button Diagnostic Tool</h1>
+        <p style="color: #666; font-size: 14px;">Use this tool to verify your cart buttons are working correctly</p>
+
+        <div class="status-box success">
+            <h3 style="margin-top: 0;">✅ Fixes Applied</h3>
+            <ul>
+                <li>✅ Added inline <code>onclick</code> handlers to all buttons</li>
+                <li>✅ Added <code>pointer-events: auto !important</code> to CSS</li>
+                <li>✅ Enhanced visual feedback (hover/active states)</li>
+                <li>✅ Dual-layer event handling (delegation + inline)</li>
+                <li>✅ Session key support for proper item identification</li>
+            </ul>
+        </div>
+
+        <div class="status-box">
+            <h3 style="margin-top: 0;">📋 Testing Steps</h3>
+            <ol style="line-height: 2;">
+                <li><span class="step-number">1</span> Open your website in a new tab</li>
+                <li><span class="step-number">2</span> Add 2-3 products to your cart</li>
+                <li><span class="step-number">3</span> Click the cart icon in the header</li>
+                <li><span class="step-number">4</span> Press <code>F12</code> to open Developer Tools</li>
+                <li><span class="step-number">5</span> Go to the <code>Console</code> tab</li>
+                <li><span class="step-number">6</span> Test each button type</li>
+            </ol>
+        </div>
+
+        <div class="status-box warning">
+            <h3 style="margin-top: 0;">⚠️ Important: Clear Cache</h3>
+            <p>Before testing, <strong>clear your browser cache</strong> to ensure you're seeing the latest changes:</p>
+            <ol>
+                <li>Press <code>Ctrl + Shift + Delete</code></li>
+                <li>Select "Cached images and files"</li>
+                <li>Click "Clear data"</li>
+                <li>Or simply press <code>Ctrl + F5</code> for a hard refresh</li>
+            </ol>
+        </div>
+
+        <div class="status-box">
+            <h3 style="margin-top: 0;">🎯 What to Test</h3>
+            <ul class="checklist">
+                <li>Click the <strong>+</strong> button → Quantity should increase</li>
+                <li>Click the <strong>-</strong> button → Quantity should decrease</li>
+                <li>Click the <strong>🗑️</strong> button → Confirmation modal should appear</li>
+                <li>Check that <strong>Item Total</strong> updates instantly</li>
+                <li>Check that <strong>Subtotal</strong> updates instantly</li>
+                <li>Check that <strong>GST (12%)</strong> updates instantly</li>
+                <li>Check that <strong>Total</strong> updates instantly</li>
+            </ul>
+        </div>
+
+        <div class="status-box">
+            <h3 style="margin-top: 0;">🔍 Expected Console Output</h3>
+            <p>When you click buttons, you should see messages like:</p>
+            <pre style="background: #2b2b2b; color: #0f0; padding: 15px; border-radius: 5px; overflow-x: auto;">
+🔧 setupCartSidebarEvents called, force: true
+✅ Setting up cart sidebar events
+✅ Attaching new event handler
+✅ Cart sidebar events setup complete
+
+<span style="color: #ffa500;">// When clicking + button:</span>
+➕ Increase button clicked
+Product ID: 123 Session Key: 123
+
+<span style="color: #ffa500;">// When clicking - button:</span>
+➖ Decrease button clicked
+Product ID: 123 Session Key: 123
+
+<span style="color: #ffa500;">// When clicking delete button:</span>
+🗑️ Delete button clicked
+Product ID: 123 Session Key: 123
+            </pre>
+        </div>
+
+        <div class="status-box error" id="troubleshooting" style="display: none;">
+            <h3 style="margin-top: 0;">❌ Troubleshooting</h3>
+            <p><strong>If buttons still don't work:</strong></p>
+            <ol>
+                <li>Check console for JavaScript errors (red text)</li>
+                <li>Verify functions exist:
+                    <ul>
+                        <li>Type <code>typeof window.updateCartQuantity</code> → should return "function"</li>
+                        <li>Type <code>typeof window.removeCartProduct</code> → should return "function"</li>
+                    </ul>
+                </li>
+                <li>Check if buttons have onclick attributes:
+                    <ul>
+                        <li>Right-click a button → Inspect</li>
+                        <li>Look for <code>onclick="..."</code> in the HTML</li>
+                    </ul>
+                </li>
+                <li>Try clicking directly in console:
+                    <ul>
+                        <li><code>window.updateCartQuantity(123, 'increase', null, '123')</code></li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="test-btn" onclick="window.open('http://localhost/Craft%20Royale/', '_blank')">
+                🌐 Open Website
+            </button>
+            <button class="test-btn" onclick="document.getElementById('troubleshooting').style.display='block'">
+                🔧 Show Troubleshooting
+            </button>
+            <button class="test-btn" onclick="runDiagnostic()">
+                🧪 Run Diagnostic
+            </button>
+        </div>
+
+        <div id="diagnostic-result" style="margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        function runDiagnostic() {
+            const resultDiv = document.getElementById('diagnostic-result');
+            let html = '<div class="status-box"><h3>🧪 Diagnostic Results</h3>';
+
+            // Check if we're on localhost
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                html += '<p>✅ Running on localhost</p>';
+            } else {
+                html += '<p>⚠️ Not running on localhost - open the website first</p>';
+            }
+
+            // Check if functions exist
+            if (typeof window.updateCartQuantity === 'function') {
+                html += '<p>✅ <code>window.updateCartQuantity</code> function exists</p>';
+            } else {
+                html += '<p>❌ <code>window.updateCartQuantity</code> function NOT found</p>';
+            }
+
+            if (typeof window.removeCartProduct === 'function') {
+                html += '<p>✅ <code>window.removeCartProduct</code> function exists</p>';
+            } else {
+                html += '<p>❌ <code>window.removeCartProduct</code> function NOT found</p>';
+            }
+
+            if (typeof window.setupCartSidebarEvents === 'function') {
+                html += '<p>✅ <code>window.setupCartSidebarEvents</code> function exists</p>';
+            } else {
+                html += '<p>❌ <code>window.setupCartSidebarEvents</code> function NOT found</p>';
+            }
+
+            // Check for cart sidebar
+            const cartSidebar = document.getElementById('cartSidebar');
+            if (cartSidebar) {
+                html += '<p>✅ Cart sidebar element found</p>';
+
+                // Check for buttons
+                const buttons = cartSidebar.querySelectorAll('.qty-increase, .qty-decrease, .qty-delete');
+                html += `<p>✅ Found ${buttons.length} cart buttons</p>`;
+
+                // Check if buttons have onclick
+                let hasOnclick = 0;
+                buttons.forEach(btn => {
+                    if (btn.hasAttribute('onclick')) hasOnclick++;
+                });
+                html += `<p>${hasOnclick > 0 ? '✅' : '❌'} ${hasOnclick} buttons have onclick handlers</p>`;
+            } else {
+                html += '<p>⚠️ Cart sidebar not found - open the cart first</p>';
+            }
+
+            html += '</div>';
+            resultDiv.innerHTML = html;
+        }
+
+        // Auto-run diagnostic if on the main site
+        if (window.location.pathname.includes('Craft') || window.location.hostname === 'localhost') {
+            setTimeout(runDiagnostic, 1000);
+        }
+    </script>
+</body>
+
+</html>

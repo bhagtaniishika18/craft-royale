@@ -1,0 +1,53 @@
+-- Create orders table
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_number` varchar(50) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `address` text NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `state` varchar(100) NOT NULL,
+  `pin_code` varchar(10) NOT NULL,
+  `country` varchar(100) DEFAULT 'India',
+  `billing_address` text DEFAULT NULL,
+  `billing_city` varchar(100) DEFAULT NULL,
+  `billing_state` varchar(100) DEFAULT NULL,
+  `billing_pin_code` varchar(10) DEFAULT NULL,
+  `shipping_method` varchar(50) DEFAULT 'prepaid',
+  `payment_method` varchar(50) NOT NULL,
+  `payment_status` enum('pending','paid','failed','refunded') DEFAULT 'pending',
+  `razorpay_payment_id` varchar(255) DEFAULT NULL,
+  `razorpay_order_id` varchar(255) DEFAULT NULL,
+  `razorpay_signature` varchar(255) DEFAULT NULL,
+  `subtotal` decimal(10,2) NOT NULL,
+  `shipping_cost` decimal(10,2) DEFAULT 0.00,
+  `tax_amount` decimal(10,2) DEFAULT 0.00,
+  `total_amount` decimal(10,2) NOT NULL,
+  `order_status` enum('pending','processing','shipped','delivered','cancelled') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `order_number` (`order_number`),
+  KEY `user_id` (`user_id`),
+  KEY `order_status` (`order_status`),
+  KEY `payment_status` (`payment_status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Create order_items table
+CREATE TABLE IF NOT EXISTS `order_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_name` varchar(255) NOT NULL,
+  `product_image` varchar(255) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
+  `unit_price` decimal(10,2) NOT NULL,
+  `mrp` decimal(10,2) DEFAULT 0.00,
+  `subtotal` decimal(10,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

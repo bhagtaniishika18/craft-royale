@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ LIVE Progress Bar Test - GUARANTEED TO WORK</title>
+    <link rel="stylesheet" href="assets/css/free-shipping-banner.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .test-product {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ff6b35;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            background: #667eea;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: #5568d3;
+            transform: scale(1.1);
+        }
+
+        .qty-btn:active {
+            transform: scale(0.95);
+        }
+
+        .qty-input {
+            width: 80px;
+            height: 40px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .stats {
+            background: #e7f3ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #d0e7ff;
+        }
+
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .instructions {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .instructions h3 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .instructions ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        .instructions li {
+            margin-bottom: 5px;
+        }
+
+        .cart-item {
+            display: none;
+            /* Hidden but exists for script */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚀 Live Progress Bar Test</h1>
+        <p class="subtitle">Click +/- and watch the progress bar move in REAL-TIME!</p>
+
+        <div class="instructions">
+            <h3>📋 Instructions:</h3>
+            <ul>
+                <li>Click <strong>+</strong> to increase quantity → Progress bar moves <strong>FORWARD</strong></li>
+                <li>Click <strong>-</strong> to decrease quantity → Progress bar moves <strong>BACKWARD</strong></li>
+                <li>Watch the truck icon slide smoothly along the bar</li>
+                <li>Reach ₹750 to see the congratulations message!</li>
+            </ul>
+        </div>
+
+        <!-- Test Product -->
+        <div class="test-product">
+            <div class="product-header">
+                <div class="product-name">🎨 Test Product</div>
+                <div class="product-price">₹200.00</div>
+            </div>
+            <div class="qty-controls">
+                <button class="qty-btn qty-decrease" onclick="changeQty(-1)">−</button>
+                <input type="number" class="qty-input" id="qty_1" value="1" min="1" readonly>
+                <button class="qty-btn qty-increase" onclick="changeQty(1)">+</button>
+            </div>
+        </div>
+
+        <!-- Hidden cart item for script -->
+        <div class="cart-item" data-product-id="1">
+            <div class="cart-item-price" data-item-price="200"></div>
+            <input type="number" class="qty-input" id="qty_1" value="1" min="1">
+        </div>
+
+        <!-- Free Shipping Banner -->
+        <div class="free-shipping-cart">
+            <div class="free-shipping-content">
+                <span>Almost there, add <strong style="color: #ff6b35;">₹<span
+                            class="remaining-amount">550.00</span></strong> more to get <strong
+                        style="color: #ff6b35;">FREE SHIPPING!</strong></span>
+                <div class="free-shipping-progress"
+                    style="position: relative; width: 100%; height: 8px; background: #e0e0e0; border-radius: 10px; margin-top: 12px; overflow: visible;">
+                    <div class="free-shipping-progress-bar"
+                        style="width: 0%; height: 100%; background: linear-gradient(90deg, #ff6b35 0%, #ff8c42 100%); border-radius: 10px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 2px 8px rgba(255, 107, 53, 0.4);">
+                    </div>
+                    <div class="free-shipping-truck"
+                        style="position: absolute; top: 50%; left: 0%; transform: translate(-50%, -50%); font-size: 24px; transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1); z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
+                        🚚
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Stats -->
+        <div class="stats">
+            <div class="stat-row">
+                <span class="stat-label">Quantity:</span>
+                <span class="stat-value" id="stat-qty">1</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Subtotal:</span>
+                <span class="stat-value" id="stat-subtotal">₹200.00</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Remaining:</span>
+                <span class="stat-value" id="stat-remaining">₹550.00</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Progress:</span>
+                <span class="stat-value" id="stat-progress">26.7%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the live progress bar script -->
+    <script src="assets/js/cart-progress-live.js"></script>
+
+    <script>
+        // Sync both inputs
+        function changeQty(delta) {
+            const visibleInput = document.querySelector('.test-product .qty-input');
+            const hiddenInput = document.querySelector('.cart-item .qty-input');
+
+            let newQty = parseInt(visibleInput.value) + delta;
+            if (newQty < 1) newQty = 1;
+
+            visibleInput.value = newQty;
+            hiddenInput.value = newQty;
+
+            // Update stats
+            updateStats(newQty);
+
+            // Trigger progress update
+            if (window.LiveProgressBar) {
+                window.LiveProgressBar.update();
+            }
+        }
+
+        function updateStats(qty) {
+            const price = 200;
+            const subtotal = qty * price;
+            const remaining = Math.max(0, 750 - subtotal);
+            const progress = Math.min(100, (subtotal / 750) * 100);
+
+            document.getElementById('stat-qty').textContent = qty;
+            document.getElementById('stat-subtotal').textContent = '₹' + subtotal.toFixed(2);
+            document.getElementById('stat-remaining').textContent = '₹' + remaining.toFixed(2);
+            document.getElementById('stat-progress').textContent = progress.toFixed(1) + '%';
+        }
+
+        // Initial update
+        setTimeout(function () {
+            if (window.LiveProgressBar) {
+                window.LiveProgressBar.update();
+                console.log('✅ Test page ready!');
+            } else {
+                console.error('❌ LiveProgressBar not loaded!');
+            }
+        }, 500);
+    </script>
+</body>
+
+</html>

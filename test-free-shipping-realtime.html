@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Shipping Banner - Real-Time Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/free-shipping-banner.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .test-controls {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.6);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.6);
+        }
+
+        .value-display {
+            min-width: 120px;
+            text-align: right;
+            font-weight: 700;
+            font-size: 20px;
+            color: #667eea;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .quick-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .quick-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .quick-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .quick-btn.secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 2px solid #ddd;
+        }
+
+        .quick-btn.secondary:hover {
+            background: #e9ecef;
+            border-color: #bbb;
+        }
+
+        .banner-preview {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .banner-preview h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .cart-simulation {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .cart-item-price[data-item-price] {
+            display: block;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 6px;
+            background: #667eea;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qty-btn:hover {
+            background: #764ba2;
+            transform: scale(1.1);
+        }
+
+        .qty-input {
+            width: 50px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            padding: 6px;
+            font-weight: 600;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .info-box h4 {
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #333;
+        }
+
+        .info-box li {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚚 Free Shipping Banner - Real-Time Test</h1>
+        <p class="subtitle">Watch the progress bar and truck icon move in real-time!</p>
+
+        <!-- Test Controls -->
+        <div class="test-controls">
+            <h3 style="margin-bottom: 20px; color: #333;">🎮 Interactive Controls</h3>
+
+            <div class="control-group">
+                <label for="subtotalSlider">Cart Subtotal (₹0 - ₹1000)</label>
+                <div class="slider-container">
+                    <input type="range" id="subtotalSlider" min="0" max="1000" value="276" step="10">
+                    <div class="value-display">₹<span id="subtotalValue">276</span></div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <button class="quick-btn primary" onclick="setSubtotal(0)">Empty Cart (₹0)</button>
+                <button class="quick-btn primary" onclick="setSubtotal(375)">Half Way (₹375)</button>
+                <button class="quick-btn primary" onclick="setSubtotal(750)">Free Shipping! (₹750)</button>
+                <button class="quick-btn secondary" onclick="setSubtotal(1000)">Over Limit (₹1000)</button>
+            </div>
+        </div>
+
+        <!-- Banner Preview -->
+        <div class="banner-preview">
+            <h3>📦 Live Banner Preview</h3>
+
+            <!-- This is the actual free shipping banner -->
+            <div class="free-shipping-cart">
+                <div class="free-shipping-content">
+                    <span>Almost there, add <strong style="color: #ff6b35;">₹<span
+                                id="freeShippingRemaining">474.00</span></strong> more to get <strong
+                            style="color: #ff6b35;">FREE SHIPPING!</strong> This offer is valid for <strong
+                            style="color: #ff6b35;">Indian customers only.</strong></span>
+                    <div class="free-shipping-progress"
+                        style="position: relative; width: 100%; height: 8px; background: #e0e0e0; border-radius: 10px; margin-top: 12px; overflow: visible;">
+                        <div class="free-shipping-progress-bar" data-progress="36.8" data-current="276"
+                            data-threshold="750"
+                            style="width: 0%; height: 100%; background: linear-gradient(90deg, #ff6b35 0%, #ff8c42 100%); border-radius: 10px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 2px 8px rgba(255, 107, 53, 0.4);">
+                        </div>
+                        <div class="free-shipping-truck" data-progress="36.8"
+                            style="position: absolute; top: 50%; left: 0%; transform: translate(-50%, -50%); font-size: 24px; transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1); z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
+                            🚚
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Simulation -->
+        <div class="cart-simulation">
+            <h3 style="margin-bottom: 15px; color: #333;">🛒 Simulated Cart Items</h3>
+
+            <div class="cart-item" data-product-id="1">
+                <div class="cart-item-details">
+                    <div class="cart-item-name">Nakshi in Emerald Green Colour</div>
+                    <div class="cart-item-price" data-item-price="276">₹276.00</div>
+                </div>
+                <div class="qty-controls">
+                    <button class="qty-btn qty-decrease" data-product-id="1">-</button>
+                    <input type="number" class="qty-input" id="qty_1" value="1" min="1" readonly>
+                    <button class="qty-btn qty-increase" data-product-id="1">+</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Current Subtotal</div>
+                <div class="stat-value">₹<span id="statSubtotal">276</span></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Remaining</div>
+                <div class="stat-value">₹<span id="statRemaining">474</span></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Progress</div>
+                <div class="stat-value"><span id="statProgress">36.8</span>%</div>
+            </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <h4>✨ Features Demonstrated:</h4>
+            <ul>
+                <li><strong>Real-time updates</strong> - No page reload required</li>
+                <li><strong>Smooth animations</strong> - Progress bar and truck move together</li>
+                <li><strong>Dynamic calculations</strong> - Subtotal calculated from cart items</li>
+                <li><strong>Instant feedback</strong> - Changes reflect immediately</li>
+                <li><strong>Threshold detection</strong> - Shows congratulations at ₹750+</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Load Free Shipping Manager -->
+    <script src="assets/js/free-shipping-manager.js"></script>
+
+    <!-- Test Script -->
+    <script>
+        // Initialize the slider
+        const slider = document.getElementById('subtotalSlider');
+        const subtotalValue = document.getElementById('subtotalValue');
+        const qtyInput = document.getElementById('qty_1');
+
+        // Update display when slider changes
+        slider.addEventListener('input', function () {
+            const value = parseInt(this.value);
+            subtotalValue.textContent = value;
+
+            // Update cart item price to match
+            const priceElement = document.querySelector('[data-item-price]');
+            priceElement.setAttribute('data-item-price', value);
+            priceElement.textContent = '₹' + value.toFixed(2);
+
+            // Update quantity to 1 for simplicity
+            qtyInput.value = 1;
+
+            // Trigger banner update
+            if (window.FreeShippingManager) {
+                window.FreeShippingManager.updateBanner();
+                updateStats();
+            }
+        });
+
+        // Quick action buttons
+        function setSubtotal(amount) {
+            slider.value = amount;
+            subtotalValue.textContent = amount;
+
+            const priceElement = document.querySelector('[data-item-price]');
+            priceElement.setAttribute('data-item-price', amount);
+            priceElement.textContent = '₹' + amount.toFixed(2);
+
+            qtyInput.value = 1;
+
+            if (window.FreeShippingManager) {
+                window.FreeShippingManager.updateBanner();
+                updateStats();
+            }
+        }
+
+        // Quantity controls
+        document.querySelectorAll('.qty-increase').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const productId = this.getAttribute('data-product-id');
+                const input = document.getElementById('qty_' + productId);
+                input.value = parseInt(input.value) + 1;
+
+                if (window.FreeShippingManager) {
+                    window.FreeShippingManager.updateBanner();
+                    updateStats();
+                }
+            });
+        });
+
+        document.querySelectorAll('.qty-decrease').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const productId = this.getAttribute('data-product-id');
+                const input = document.getElementById('qty_' + productId);
+                const newValue = Math.max(1, parseInt(input.value) - 1);
+                input.value = newValue;
+
+                if (window.FreeShippingManager) {
+                    window.FreeShippingManager.updateBanner();
+                    updateStats();
+                }
+            });
+        });
+
+        // Update stats display
+        function updateStats() {
+            const subtotal = window.FreeShippingManager.calculateSubtotal();
+            const remaining = Math.max(0, 750 - subtotal);
+            const progress = Math.min(100, (subtotal / 750) * 100);
+
+            document.getElementById('statSubtotal').textContent = subtotal.toFixed(0);
+            document.getElementById('statRemaining').textContent = remaining.toFixed(0);
+            document.getElementById('statProgress').textContent = progress.toFixed(1);
+        }
+
+        // Initial update
+        setTimeout(function () {
+            if (window.FreeShippingManager) {
+                window.FreeShippingManager.updateBanner();
+                updateStats();
+            }
+        }, 500);
+    </script>
+</body>
+
+</html>

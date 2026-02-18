@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart Button Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        #console-output {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .log-line {
+            margin: 2px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🛒 Cart Functionality Test</h1>
+    
+    <div class="test-section">
+        <h2>Test Instructions:</h2>
+        <ol>
+            <li>Open your website: <a href="http://localhost/Craft%20Royale/" target="_blank">http://localhost/Craft Royale/</a></li>
+            <li>Add some products to your cart</li>
+            <li>Click the cart icon to open the cart sidebar</li>
+            <li>Open the browser console (F12 → Console tab)</li>
+            <li>Try clicking the +, -, and delete buttons</li>
+            <li>Check the console for debug messages</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h2>Expected Console Messages:</h2>
+        <ul>
+            <li><span class="success">✅</span> "🔧 setupCartSidebarEvents called, force: true"</li>
+            <li><span class="success">✅</span> "✅ Setting up cart sidebar events"</li>
+            <li><span class="success">✅</span> "✅ Cart sidebar events setup complete"</li>
+            <li>When clicking +: <span class="success">✅</span> "➕ Increase button clicked"</li>
+            <li>When clicking -: <span class="success">✅</span> "➖ Decrease button clicked"</li>
+            <li>When clicking delete: <span class="success">✅</span> "🗑️ Delete button clicked"</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>What Was Fixed:</h2>
+        <ul>
+            <li><span class="success">✅</span> Removed restrictive guard that prevented event re-initialization</li>
+            <li><span class="success">✅</span> Added comprehensive console logging for debugging</li>
+            <li><span class="success">✅</span> Added e.stopPropagation() to prevent event bubbling issues</li>
+            <li><span class="success">✅</span> Force event setup when cart sidebar opens</li>
+            <li><span class="success">✅</span> Force event setup when cart content is loaded via AJAX</li>
+            <li><span class="success">✅</span> Added session key support for proper cart item identification</li>
+            <li><span class="success">✅</span> Added instant total recalculation on quantity changes</li>
+            <li><span class="success">✅</span> Added individual item total display</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>GST Calculation (12%):</h2>
+        <p>The cart now correctly calculates:</p>
+        <ul>
+            <li><strong>Total (Inclusive)</strong> = Sum of all (Price × Quantity)</li>
+            <li><strong>GST (12%)</strong> = (Total × 12) / 112</li>
+            <li><strong>Subtotal (Exclusive)</strong> = Total - GST</li>
+        </ul>
+        <p><strong>Example:</strong></p>
+        <ul>
+            <li>Product 1: ₹1,000 × 1 = ₹1,000</li>
+            <li>Product 2: ₹155 × 1 = ₹155</li>
+            <li><strong>Total (Incl. GST):</strong> ₹1,155.00</li>
+            <li><strong>GST (12%):</strong> ₹123.75</li>
+            <li><strong>Subtotal (Excl. GST):</strong> ₹1,031.25</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h2>Quick Test Buttons:</h2>
+        <button onclick="openTestSite()">🌐 Open Website</button>
+        <button onclick="clearConsole()">🧹 Clear Console Below</button>
+    </div>
+
+    <div id="console-output">
+        <div class="log-line">Console output will appear here...</div>
+        <div class="log-line">Open the website and interact with the cart to see debug messages.</div>
+    </div>
+
+    <script>
+        function openTestSite() {
+            window.open('http://localhost/Craft%20Royale/', '_blank');
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').innerHTML = '<div class="log-line">Console cleared. Waiting for new messages...</div>';
+        }
+
+        // Intercept console.log to display here
+        const originalLog = console.log;
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            const output = document.getElementById('console-output');
+            const logLine = document.createElement('div');
+            logLine.className = 'log-line';
+            logLine.textContent = args.join(' ');
+            output.appendChild(logLine);
+            output.scrollTop = output.scrollHeight;
+        };
+    </script>
+</body>
+</html>

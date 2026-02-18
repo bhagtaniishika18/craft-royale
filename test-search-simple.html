@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Test</title>
+    <style>
+        .search-box { position: relative; width: 500px; margin: 50px auto; }
+        #searchInput { width: 100%; padding: 10px; font-size: 16px; }
+        #searchResults { 
+            position: absolute; 
+            top: 100%; 
+            left: 0; 
+            right: 0; 
+            background: #fff; 
+            border: 1px solid #ccc; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simple Search Test</h1>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Type 'si' to test...">
+        <div id="searchResults"></div>
+    </div>
+
+    <script>
+    var searchTimeout = null;
+    var input = document.getElementById('searchInput');
+    var results = document.getElementById('searchResults');
+    
+    input.addEventListener('input', function() {
+        var q = this.value.trim();
+        console.log('Typed:', q);
+        
+        if (searchTimeout) clearTimeout(searchTimeout);
+        
+        if (q.length < 2) {
+            results.style.display = 'none';
+            results.innerHTML = '';
+            return;
+        }
+        
+        results.innerHTML = '<div style="padding:15px;">Searching for: ' + q + '</div>';
+        results.style.display = 'block';
+        
+        searchTimeout = setTimeout(function() {
+            fetch('ajax-search.php?q=' + encodeURIComponent(q))
+                .then(function(response) { return response.text(); })
+                .then(function(html) {
+                    console.log('Got response:', html.length, 'chars');
+                    if (html && html.trim().length > 0) {
+                        results.innerHTML = html;
+                        results.style.display = 'block';
+                    } else {
+                        results.style.display = 'none';
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error:', error);
+                    results.innerHTML = '<div style="padding:15px;color:red;">Error: ' + error.message + '</div>';
+                    results.style.display = 'block';
+                });
+        }, 200);
+    });
+    </script>
+</body>
+</html>

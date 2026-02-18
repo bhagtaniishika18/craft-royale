@@ -1,0 +1,21 @@
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+}
+
+.admin-table th {
+    background: #2f855a;
+    color: #fff;
+    padding: 10px;
+}
+
+.admin-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.sidebar a.active {
+    background: rgba(255,255,255,0.2);
+}

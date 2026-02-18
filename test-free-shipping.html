@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Free Shipping Banner Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        
+        .free-shipping-cart {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .free-shipping-cart.achieved {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: 2px solid #28a745;
+            color: white;
+        }
+        
+        .free-shipping-content {
+            flex: 1;
+        }
+        
+        .free-shipping-progress {
+            height: 8px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .free-shipping-progress-bar {
+            height: 100%;
+            background: #2fc7b4;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .cart-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .qty-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        button {
+            padding: 8px 15px;
+            border: none;
+            background: #2fc7b4;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        button:hover {
+            background: #2fa76b;
+        }
+        
+        .qty-input {
+            width: 60px;
+            text-align: center;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .demo-info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Free Shipping Banner Demo</h1>
+    
+    <div class="demo-info">
+        <strong>How to test:</strong>
+        <ol>
+            <li>Click the + or - buttons to change quantity</li>
+            <li>Watch the banner update <strong>INSTANTLY</strong></li>
+            <li>Progress bar should move smoothly</li>
+            <li>At ₹750+, banner turns green with congratulations message</li>
+        </ol>
+    </div>
+    
+    <!-- Free Shipping Banner -->
+    <div class="free-shipping-cart">
+        <i class="fas fa-truck" style="color: #dc3545;"></i>
+        <div class="free-shipping-content">
+            <span>Almost there, add <strong style="color: #ff6b35;">₹<span id="freeShippingRemaining">300.00</span></strong> more to get <strong style="color: #ff6b35;">FREE SHIPPING!</strong> This offer is valid for <strong style="color: #ff6b35;">Indian customers only.</strong></span>
+            <div class="free-shipping-progress">
+                <div class="free-shipping-progress-bar" style="width: 60%;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart Items -->
+    <div class="cart-item" data-product-id="1">
+        <div>
+            <strong>Product 1</strong>
+            <div class="cart-item-price" data-item-price="450.00" style="color: #666;">₹450.00</div>
+        </div>
+        <div class="qty-controls">
+            <button class="qty-decrease" onclick="changeQty(1, -1)">-</button>
+            <input type="number" class="qty-input" id="qty_1" value="1" readonly>
+            <button class="qty-increase" onclick="changeQty(1, 1)">+</button>
+        </div>
+    </div>
+    
+    <div style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 8px;">
+        <strong>Current Subtotal:</strong> <span id="currentSubtotal">₹450.00</span><br>
+        <strong>Remaining for Free Shipping:</strong> <span id="remainingAmount">₹300.00</span>
+    </div>
+    
+    <script src="assets/js/free-shipping-manager.js"></script>
+    <script>
+        // Simple quantity change function for demo
+        function changeQty(productId, delta) {
+            const input = document.getElementById('qty_' + productId);
+            let qty = parseInt(input.value) || 1;
+            qty = Math.max(1, qty + delta);
+            input.value = qty;
+            
+            // Update banner immediately
+            if (window.FreeShippingManager) {
+                window.FreeShippingManager.updateBanner();
+                
+                // Update display
+                const subtotal = window.FreeShippingManager.calculateSubtotal();
+                const remaining = Math.max(0, 750 - subtotal);
+                document.getElementById('currentSubtotal').textContent = '₹' + subtotal.toFixed(2);
+                document.getElementById('remainingAmount').textContent = '₹' + remaining.toFixed(2);
+            }
+        }
+        
+        // Initialize on load
+        window.addEventListener('load', function() {
+            if (window.FreeShippingManager) {
+                window.FreeShippingManager.init(750);
+                window.FreeShippingManager.updateBanner();
+                console.log('✅ Demo loaded! Click +/- buttons to see dynamic updates.');
+            } else {
+                console.error('❌ FreeShippingManager not loaded!');
+            }
+        });
+    </script>
+</body>
+</html>

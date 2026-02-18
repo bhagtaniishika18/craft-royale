@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Free Shipping Banner - Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2b2b2b;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        /* Free Shipping Banner Styles */
+        .free-shipping-message {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #856404;
+        }
+
+        .free-shipping-message i {
+            color: #dc3545;
+            font-size: 20px;
+        }
+
+        .free-shipping-message.achieved {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 50%, #b8e0c4 100%);
+            border: 3px solid #28a745;
+            color: #155724;
+            box-shadow: 0 6px 25px rgba(40, 167, 69, 0.4);
+            animation: celebratePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes celebratePulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .free-shipping-message.achieved i {
+            color: #28a745;
+            font-size: 28px;
+        }
+
+        /* Cart Items */
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+
+        .cart-table th {
+            background: #f5f5f5;
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            color: #2b2b2b;
+        }
+
+        .cart-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #2b2b2b;
+        }
+
+        .current-price {
+            font-weight: 700;
+            color: #dc3545;
+            font-size: 16px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            background: #f0f0f0;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: #2fc7b4;
+            color: #fff;
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 8px;
+            font-weight: 600;
+        }
+
+        .cart-total {
+            font-weight: 700;
+            font-size: 18px;
+            color: #2b2b2b;
+        }
+
+        .cart-summary {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .cart-summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .cart-summary-label {
+            font-weight: 600;
+            color: #2b2b2b;
+        }
+
+        .cart-summary-value {
+            font-weight: 700;
+            font-size: 20px;
+            color: #2b2b2b;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .info-box h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #0d47a1;
+        }
+
+        .info-box li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚚 Dynamic Free Shipping Banner Test</h1>
+        <p class="subtitle">Free shipping threshold: ₹750 | Test the real-time banner updates</p>
+
+        <div class="info-box">
+            <h3>✨ Features Implemented:</h3>
+            <ul>
+                <li>✅ Real-time subtotal calculation from DOM elements</li>
+                <li>✅ Instant banner updates when quantity changes (no page refresh)</li>
+                <li>✅ Dynamic remaining amount calculation</li>
+                <li>✅ Smooth transition between "Almost there" and "Congratulations" messages</li>
+                <li>✅ Consistent ₹ symbol usage across all displays</li>
+                <li>✅ Works on mini cart, cart page, and checkout page</li>
+            </ul>
+        </div>
+
+        <!-- Free Shipping Banner -->
+        <div class="free-shipping-message" id="cartFreeShippingBanner">
+            <i class="fas fa-truck"></i>
+            <span>Almost there, add ₹<span id="cartFreeShippingRemaining">750.00</span> more to get FREE SHIPPING! This offer is valid for Indian customers only.</span>
+        </div>
+
+        <!-- Cart Table -->
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>PRODUCT</th>
+                    <th>PRICE</th>
+                    <th>QUANTITY</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-product-id="1">
+                    <td>
+                        <div class="product-name">Pony Stationery Pins In Pin Cushion</div>
+                    </td>
+                    <td>
+                        <span class="current-price">₹99.00</span>
+                    </td>
+                    <td>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="updateQuantity(1, 'decrease')">-</button>
+                            <input type="number" class="quantity-input" id="cart_qty_1" value="1" min="1">
+                            <button type="button" class="quantity-btn" onclick="updateQuantity(1, 'increase')">+</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart-total">₹99.00</div>
+                    </td>
+                </tr>
+                <tr data-product-id="2">
+                    <td>
+                        <div class="product-name">Light Rose Colour Point Back Rhinestones</div>
+                    </td>
+                    <td>
+                        <span class="current-price">₹225.00</span>
+                    </td>
+                    <td>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="updateQuantity(2, 'decrease')">-</button>
+                            <input type="number" class="quantity-input" id="cart_qty_2" value="1" min="1">
+                            <button type="button" class="quantity-btn" onclick="updateQuantity(2, 'increase')">+</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart-total">₹225.00</div>
+                    </td>
+                </tr>
+                <tr data-product-id="3">
+                    <td>
+                        <div class="product-name">Craft Beads Assorted Pack</div>
+                    </td>
+                    <td>
+                        <span class="current-price">₹150.00</span>
+                    </td>
+                    <td>
+                        <div class="quantity-controls">
+                            <button type="button" class="quantity-btn" onclick="updateQuantity(3, 'decrease')">-</button>
+                            <input type="number" class="quantity-input" id="cart_qty_3" value="1" min="1">
+                            <button type="button" class="quantity-btn" onclick="updateQuantity(3, 'increase')">+</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="cart-total">₹150.00</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Cart Summary -->
+        <div class="cart-summary">
+            <div class="cart-summary-row">
+                <span class="cart-summary-label">SUBTOTAL:</span>
+                <span class="cart-summary-value">₹474.00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Free Shipping Manager -->
+    <script src="assets/js/free-shipping-manager.js"></script>
+
+    <script>
+        // Initialize free shipping manager
+        if (window.FreeShippingManager) {
+            window.FreeShippingManager.init(750);
+            // Update banner on page load
+            setTimeout(function() {
+                window.FreeShippingManager.updateBanner();
+            }, 100);
+        }
+
+        // Update quantity function with instant banner update
+        function updateQuantity(productId, action) {
+            const input = document.getElementById('cart_qty_' + productId);
+            const row = document.querySelector(`tr[data-product-id="${productId}"]`);
+            
+            if (!input) return;
+            
+            let quantity = parseInt(input.value) || 1;
+            
+            if (action === 'increase') {
+                quantity++;
+            } else if (action === 'decrease') {
+                quantity = Math.max(1, quantity - 1);
+            }
+            
+            // Update input immediately
+            input.value = quantity;
+            
+            // Update row total immediately
+            if (row) {
+                const priceElement = row.querySelector('.current-price');
+                const totalElement = row.querySelector('.cart-total');
+                
+                if (priceElement && totalElement) {
+                    const priceText = priceElement.textContent.replace(/[^0-9.]/g, '');
+                    const price = parseFloat(priceText) || 0;
+                    const itemTotal = price * quantity;
+                    totalElement.textContent = '₹' + itemTotal.toFixed(2);
+                }
+            }
+            
+            // Update free shipping banner IMMEDIATELY
+            if (window.FreeShippingManager && window.FreeShippingManager.updateBanner) {
+                setTimeout(function() {
+                    window.FreeShippingManager.updateBanner();
+                    console.log('✅ Free shipping banner updated instantly');
+                }, 50);
+            }
+        }
+    </script>
+</body>
+</html>
